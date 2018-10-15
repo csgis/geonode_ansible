@@ -1,0 +1,121 @@
+---
+- hosts: geonode
+  become: yes
+  tasks:
+  - name: Install a list of packages
+    apt:
+      name: "{{ packages }}"
+      update_cache: yes
+    vars:
+      packages:
+        - python-virtualenv
+        - python-dev
+        - libxml2
+        - libxml2-dev
+        - libxslt1-dev
+        - zlib1g-dev
+        - libjpeg-dev
+        - libpq-dev
+        - git
+        - default-jdk
+        - build-essential
+        # - openssh-server
+        - gettext
+        - nano
+        - vim 
+        - unzip 
+        - zip 
+        - patch 
+        - git-core 
+        - postfix
+        - software-properties-common
+
+  - name: Add Oracle Java Repository
+    become: yes
+    apt_repository: repo='ppa:webupd8team/java'
+
+  - name: Accept Java 8 License
+    become: yes
+    debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+  - name: Install Oracle Java 8
+    become: yes
+    apt: name={{item}} state=latest
+    loop: ['oracle-java8-installer', 'ca-certificates', 'oracle-java8-set-default']
+
+  - name: Add Ubuntugis Repository
+    become: yes
+    apt_repository: repo='ppa:ubuntugis'
+
+  - name: Upgrade apt packages
+    become: true
+    apt:
+      upgrade: yes
+
+  - name: Add Ubuntugis/ppa Repository
+    become: yes
+    apt_repository: repo='ppa:ubuntugis/ppa'
+
+  - name: Upgrade apt packages
+    become: true
+    apt:
+      upgrade: yes
+
+  - name: Install a list of packages
+    apt:
+      name: "{{ packages }}"
+      update_cache: yes
+    vars:
+      packages:
+        - gcc
+        - apache2
+        - libapache2-mod-wsgi
+        - libgeos-dev
+        - libjpeg-dev
+        - libpng-dev
+        - libpq-dev 
+        - libproj-dev 
+        - libxml2-dev 
+        - libxslt-dev
+
+  - name: Add Ubuntugis/ubuntugis-testing Repository
+    become: yes
+    apt_repository: repo='ppa:ubuntugis/ubuntugis-testing'
+
+
+  - name: Install a list of packages
+    apt:
+      name: "{{ packages }}"
+      update_cache: yes
+    vars:
+      packages:
+        - gdal-bin 
+        - libgdal20 
+        - libgdal-dev
+        - python-gdal 
+        - python-pycurl 
+        - python-imaging 
+        - python-pastescript 
+        - python-psycopg2 
+        - python-urlgrabber
+        - postgresql 
+        - postgis 
+        - postgresql-9.5-postgis-scripts 
+        - postgresql-contrib
+        - tomcat8
+
+  - name: Upgrade apt packages
+    become: true
+    apt:
+      upgrade: yes
+      autoremove: yes
+      autoclean: yes
+      purge: yes
+
+
+
+
+
+
+
+
