@@ -1,0 +1,5 @@
+---
+install_root: /home/vagrant
+name_of_project: my_geonode
+django_version: 1.11.11
+

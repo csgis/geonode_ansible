@@ -1,0 +1,6 @@
+---
+- hosts: geonode
+  tasks:
+  # - import_tasks: ./tasks/1_install_packages.yml
+  #- import_tasks: ./tasks/2_install_geonode.yml
+  - import_tasks: ./tasks/3_paver.yml
