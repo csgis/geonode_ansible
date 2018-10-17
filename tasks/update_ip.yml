@@ -1,21 +1,21 @@
 ---
-- name: Service | Update IP
+- name: Service | Copy geonode.binary
   become: yes
   shell: "cp {{ virtualenv_dir }}/src/geonode/package/support/geonode.binary /usr/bin/geonode"
 
-- name: Service | Update IP
+- name: Service | Copy geonode.updateip
   become: yes
   shell: "cp {{ virtualenv_dir }}/src/geonode/package/support/geonode.updateip /usr/bin/geonode_updateip"
  
-- name: Service | Update IP
+- name: Service | Make executable geonode
   become: yes
   shell: "chmod +x /usr/bin/geonode"
 
-- name: Service | Update IP
+- name: Service | Make executable geonode_updateip
   become: yes
   shell: "chmod +x /usr/bin/geonode_updateip"
 
-- name: Service | Update IP
+- name: Service | Run geonode_updateip
   become: yes
   shell: ". {{ virtualenv_dir }}/bin/activate && geonode_updateip -p {{ server_name }}"
   environment:
