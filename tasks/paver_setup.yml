@@ -1,5 +1,5 @@
 ---
-- name: Paver setup
+- name: Paver | setup
   shell: ". {{ virtualenv_dir }}/bin/activate && paver setup"
   environment:
     DJANGO_SETTINGS_MODULE: "{{ project_name }}.settings"

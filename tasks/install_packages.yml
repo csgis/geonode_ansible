@@ -1,6 +1,6 @@
 ---
  
-- name: Install a list of packages
+- name: OS | Install a list of packages
   become: yes
   apt:
     name: "{{ packages }}"
@@ -29,38 +29,38 @@
       - postfix
       - software-properties-common
 
-- name: Add Oracle Java Repository
+- name: OS | Add Oracle Java Repository
   become: yes
   apt_repository: repo='ppa:webupd8team/java'
 
-- name: Accept Java 8 License
+- name: OS | Accept Java 8 License
   become: yes
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
 
-- name: Install Oracle Java 8
+- name: OS | Install Oracle Java 8
   become: yes
   apt: name={{item}} state=latest
   loop: ['oracle-java8-installer', 'ca-certificates', 'oracle-java8-set-default']
 
-- name: Add Ubuntugis Repository
+- name: OS | Add Ubuntugis Repository
   become: yes
   apt_repository: repo='ppa:ubuntugis'
 
-- name: Upgrade apt packages
+- name: OS | Upgrade apt packages
   become: true
   apt:
     upgrade: yes
 
-- name: Add Ubuntugis/ppa Repository
+- name: OS | Add Ubuntugis/ppa Repository
   become: yes
   apt_repository: repo='ppa:ubuntugis/ppa'
 
-- name: Upgrade apt packages
+- name: OS | Upgrade apt packages
   become: true
   apt:
     upgrade: yes
 
-- name: Install a list of packages
+- name: OS | Install a list of packages
   become: yes
   apt:
     name: "{{ packages }}"
@@ -78,12 +78,12 @@
       - libxml2-dev 
       - libxslt-dev
 
-- name: Add Ubuntugis/ubuntugis-testing Repository
+- name: OS | Add Ubuntugis/ubuntugis-testing Repository
   become: yes
   apt_repository: repo='ppa:ubuntugis/ubuntugis-testing'
 
 
-- name: Install a list of packages
+- name: OS | Install a list of packages
   become: yes
   apt:
     name: "{{ packages }}"
@@ -105,7 +105,7 @@
       - postgresql-contrib
       - tomcat8
 
-- name: Upgrade apt packages
+- name: OS | Upgrade apt packages
   become: yes
   apt:
     upgrade: yes
