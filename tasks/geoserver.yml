@@ -1,0 +1,52 @@
+---
+- name: Stop Tomcat
+  become: yes
+  command: service tomcat8 stop
+
+- name: Copy Geoserver directory
+  become: yes
+  command: cp -Rf {{ project_path }}/geoserver/geoserver/ /var/lib/tomcat8/webapps/
+
+- name: Create /data/geoserver-logs
+  become: yes
+  command: mkdir -p /data/geoserver-logs
+
+- name: Create /data/gwc_cache_dir
+  become: yes
+  command: mkdir -p /data/gwc_cache_dir
+
+- name: Copy Geoserver directory
+  become: yes
+  command: cp -Rf {{ project_path }}/geoserver/data /data/geoserver-data
+
+- name: Set permissions | /data/geoserver-data/
+  become: yes
+  command: 'chown -Rf tomcat8: /data/geoserver-data/'
+
+- name: Set permissions | /data/geoserver-logs/
+  become: yes
+  command: 'chown -Rf tomcat8: /data/geoserver-logs/'
+
+- name: Set permissions | /data/gwc_cache_dir/
+  become: yes
+  command: 'chown -Rf tomcat8: /data/gwc_cache_dir/'
+
+- name: write tomcat8.conf 
+  template: src=./templates/gs/tomcat8 dest=/etc/default/tomcat8
+  become: yes
+
+- name: write catalina.properties
+  template: src=./templates/gs/catalina.properties dest=/var/lib/tomcat8/conf/catalina.properties
+  become: yes
+
+- name: write tomcat8.conf 
+  template: src=./templates/gs/config.conf.j2 dest=/data/geoserver-data/security/filter/geonode-oauth2/config.xml
+  become: yes
+
+- name: write tomcat8.conf 
+  template: src=./templates/gs/global.conf.j2 dest=/data/geoserver-data/global.xml
+  become: yes
+
+- name: Start Tomcat
+  become: yes
+  command: service tomcat8 start

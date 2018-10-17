@@ -1,6 +1,13 @@
 ---
 install_root: /home/vagrant
-name_of_project: my_geonode
-django_version: 1.11.11
+project_name: my_geonode
+django_version: 1.11.15
+
+# server ip or domain without http[s]
 server_name: 192.168.33.11
 
+virtualenv_dir: "{{install_root}}/.venv/{{project_name}}"
+project_path: "{{install_root}}/{{project_name}}"
+
+db_user: geonode
+db_password: geonode

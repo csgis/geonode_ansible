@@ -1,6 +1,11 @@
 ---
 - hosts: geonode
   tasks:
-  # - import_tasks: ./tasks/1_install_packages.yml
-  #- import_tasks: ./tasks/2_install_geonode.yml
-  - import_tasks: ./tasks/3_paver.yml
+  # - import_tasks: ./tasks/install_packages.yml
+  # - import_tasks: ./tasks/install_geonode.yml
+  # - import_tasks: ./tasks/paver.yml
+  # - import_tasks: ./tasks/postgres.yml
+  # - import_tasks: ./tasks/apache.yml
+  # - import_tasks: ./tasks/paver_sync.yml
+  # - import_tasks:  ./tasks/geoserver.yml
+  - import_tasks:  ./tasks/update_ip.yml

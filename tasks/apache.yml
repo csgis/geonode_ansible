@@ -1,0 +1,82 @@
+---
+- name: write the geonode.conf 
+  template: src=./templates/apache/geonode.conf.j2 dest=/etc/apache2/sites-available/geonode.conf
+  become: yes
+
+- name: write the geonode.conf 
+  template: src=./templates/apache/wsgi.py.j2 dest={{project_path}}/{{project_name}}/wsgi.py
+  become: yes
+
+- name: write the geonode.conf 
+  template: src=./templates/django/local_settings.py.j2 dest={{project_path}}/{{project_name}}/local_settings.py
+  become: yes
+
+- lineinfile:
+    path: "{{project_path}}/{{project_name}}/settings.py"
+    line: "ALLOWED_HOSTS=['localhost','{{ server_name }}']"
+
+- name: Activates geonode virtualhost
+  become: yes
+  command: a2enmod proxy_http
+
+- name: Deactivates 000-default virtualhost
+  become: yes
+  command: a2dissite 000-default
+
+- name: Activates geonode virtualhost
+  become: yes
+  command: a2ensite geonode
+
+- name: Check that our config is valid
+  command: apache2ctl configtest
+  ignore_errors: True
+
+
+# migrate and collect files
+- django_manage:
+    command: migrate
+    app_path: "{{ project_path }}"
+    virtualenv: "{{ virtualenv_dir }}"
+
+- django_manage:
+    command: collectstatic
+    app_path: "{{ project_path }}"
+    virtualenv: "{{ virtualenv_dir }}"
+
+# set file permissions
+- file:
+    path: "{{project_path}}/{{project_name}}/uploaded/thumbs"
+    state: directory
+    mode: 0777
+
+- file:
+    path: "{{project_path}}/{{project_name}}/uploaded/layers"
+    state: directory
+    mode: 0777
+
+- file:
+    path: "{{project_path}}"
+    owner: geonode
+    recurse: yes
+
+- file:
+    path: "{{project_path}}/{{project_name}}/static"
+    owner: geonode
+    group: www-data
+    recurse: yes
+
+- file:
+    path: "{{project_path}}/{{project_name}}/uploaded"
+    owner: geonode
+    group: www-data
+    recurse: yes
+
+- file:
+    path: "{{project_path}}/{{project_name}}/static_root"
+    recurse: yes
+    mode: 0777
+
+- name: Restart apache
+  become: yes
+  command: service apache2 restart
+

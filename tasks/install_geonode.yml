@@ -1,0 +1,49 @@
+---
+ 
+- git:
+    repo: 'https://github.com/GeoNode/geonode-project.git'
+    dest: "{{ install_root }}/geonode-project"
+    clone: yes
+    version: master
+
+- name: Install Django
+  pip: 
+    name: Django
+    version: "{{ django_version }}"
+    virtualenv: "{{virtualenv_dir}}"
+
+- name: Create new Geonode geonode-project
+  command: "{{virtualenv_dir}}/bin/django-admin startproject --template=./geonode-project -e py,rst,json,yml,ini,env,sample -n Dockerfile {{ project_name }}"
+  args:
+    chdir: "{{ install_root }}"
+    creates: "{{ project_path }}"
+
+- name: Install requirements.txt
+  pip: 
+    requirements: "{{ project_path }}/requirements.txt"
+    virtualenv: "{{ virtualenv_dir }}"
+    chdir: "{{ project_path }}"
+    extra_args: --upgrade 
+
+- name: Upgrade pip packages 
+  pip: 
+    name: "{{ project_path }}/"
+    editable: true
+    virtualenv: "{{virtualenv_dir}}"
+    extra_args: --upgrade
+
+- name: multiline shell command
+  shell: gdal-config --version | cut -c 1-5 
+  register: gdal_version
+
+- name: multiline shell command
+  command: "{{ virtualenv_dir }}/bin/pip install pygdal>={{gdal_version.stdout}}.0,<={{gdal_version.stdout}}.999"
+
+- name: Copy file with geoserver path information
+  copy:
+    src: ./assets/dev_config.yml
+    dest: "{{ project_path }}/dev_config.yml"
+    owner: vagrant
+    group: vagrant
+    mode: 0744 
+

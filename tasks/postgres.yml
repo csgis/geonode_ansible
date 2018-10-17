@@ -1,0 +1,74 @@
+---
+
+# configure postgresql
+- name: write the pg_hba.conf file 
+  template: src=./templates/postgres/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
+  become: yes
+
+- name: write the pg_hba.conf file 
+  template: src=./templates/postgres/postgresql.conf dest=/etc/postgresql/9.5/main/postgresql.conf
+  become: yes
+
+- name: restart postgres
+  command: /etc/init.d/postgresql restart
+  become: yes
+
+- name: check if postgres cluster is created already
+  shell: "psql postgres -c 'select 1'"
+  register: db_setup
+  ignore_errors: yes
+  become: yes
+  become_user: postgres
+
+# create database user and databases
+- name: create database user
+  postgresql_user: name={{db_user}}
+                   password={{db_password}}
+                   role_attr_flags=LOGIN,CREATEDB,NOSUPERUSER
+  become: yes
+  become_user: postgres
+
+
+- postgresql_db:
+    name: geonode
+    encoding: UTF-8
+
+- postgresql_db:
+    name: geonode_data
+    encoding: UTF-8
+
+- postgresql_ext:
+    name: postgis
+    db: geonode_data
+
+
+# Grant privilegs
+- postgresql_privs:
+    db: geonode_data
+    privs: ALL
+    objs: geometry_columns
+    role: PUBLIC
+
+- postgresql_privs:
+    db: geonode_data
+    privs: ALL
+    objs: spatial_ref_sys
+    role: PUBLIC
+
+- name: postgres | Ensure we have access from the new user for geonode_data
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: geonode_data
+    role: geonode
+    objs: ALL_IN_SCHEMA
+    privs: SELECT,INSERT,UPDATE,DELETE
+
+- name: postgres | Ensure we have access from the new user for geonde
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: geonode
+    role: geonode
+    objs: ALL_IN_SCHEMA
+    privs: SELECT,INSERT,UPDATE,DELETE

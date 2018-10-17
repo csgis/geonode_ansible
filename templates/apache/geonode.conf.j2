@@ -1,9 +1,9 @@
-WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{ install_root }}/.venv/{{name_of_project }}/lib/python2.7/site-packages user=www-data threads=15 processes=2
+WSGIDaemonProcess geonode python-path={{ project_path }}:{{ virtualenv_dir }}/lib/python2.7/site-packages user=www-data threads=15 processes=2
 
 <VirtualHost *:80>
-    ServerName http://{{server_name }}
+    ServerName http://localhost
     ServerAdmin webmaster@{{server_name }}
-    DocumentRoot {{ install_root }}/{{name_of_project }}/{{name_of_project }}
+    DocumentRoot {{ project_path }}/{{ project_name }}
 
     LimitRequestFieldSize 32760
     LimitRequestLine 32760
@@ -14,12 +14,12 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
 
     WSGIProcessGroup geonode
     WSGIPassAuthorization On
-    WSGIScriptAlias / {{ install_root }}/{{name_of_project }}/{{name_of_project }}/wsgi.py
+    WSGIScriptAlias / {{ project_path }}/{{ project_name }}/wsgi.py
 
-    Alias /static/ {{ install_root }}/{{name_of_project }}/{{name_of_project }}/static_root/
-    Alias /uploaded/ {{ install_root }}/{{name_of_project }}/{{name_of_project }}/uploaded/
+    Alias /static/ {{ project_path }}/{{ project_name }}/static_root/
+    Alias /uploaded/ {{ project_path }}/{{ project_name }}/uploaded/
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project}}/">
+    <Directory "{{ project_path }}/{{ project_name}}/">
          <Files wsgi.py>
              Order deny,allow
              Allow from all
@@ -32,7 +32,7 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
         IndexOptions FancyIndexing
     </Directory>
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project }}/static_root/">
+    <Directory "{{ project_path }}/{{ project_name }}/static_root/">
         Order allow,deny
         Options Indexes FollowSymLinks
         Allow from all
@@ -40,7 +40,7 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
         IndexOptions FancyIndexing
     </Directory>
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project }}/uploaded/thumbs/">
+    <Directory "{{ project_path }}/{{ project_name }}/uploaded/thumbs/">
         Order allow,deny
         Options Indexes FollowSymLinks
         Allow from all
@@ -48,7 +48,7 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
         IndexOptions FancyIndexing
     </Directory>
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project }}/uploaded/avatars/">
+    <Directory "{{ project_path }}/{{ project_name }}/uploaded/avatars/">
         Order allow,deny
         Options Indexes FollowSymLinks
         Allow from all
@@ -56,7 +56,7 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
         IndexOptions FancyIndexing
     </Directory>
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project }}/uploaded/people_group/">
+    <Directory "{{ project_path }}/{{ project_name }}/uploaded/people_group/">
         Order allow,deny
         Options Indexes FollowSymLinks
         Allow from all
@@ -64,7 +64,7 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
         IndexOptions FancyIndexing
     </Directory>
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project }}/uploaded/group/">
+    <Directory "{{ project_path }}/{{ project_name }}/uploaded/group/">
         Order allow,deny
         Options Indexes FollowSymLinks
         Allow from all
@@ -72,7 +72,7 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
         IndexOptions FancyIndexing
     </Directory>
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project }}/uploaded/documents/">
+    <Directory "{{ project_path }}/{{ project_name }}/uploaded/documents/">
         Order allow,deny
         Options Indexes FollowSymLinks
         Deny from all
@@ -80,7 +80,7 @@ WSGIDaemonProcess geonode python-path={{ install_root }}/{{name_of_project }}:{{
         IndexOptions FancyIndexing
     </Directory>
 
-    <Directory "{{ install_root }}/{{name_of_project }}/{{name_of_project }}/uploaded/layers/">
+    <Directory "{{ project_path }}/{{ project_name }}/uploaded/layers/">
         Order allow,deny
         Options Indexes FollowSymLinks
         Deny from all

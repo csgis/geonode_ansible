@@ -1,0 +1,30 @@
+---
+
+- name: Update IP
+  become: yes
+  shell: "cp {{ virtualenv_dir }}/src/geonode/package/support/geonode.binary /usr/bin/geonode"
+
+- name: Update IP
+  become: yes
+  shell: "cp {{ virtualenv_dir }}/src/geonode/package/support/geonode.updateip /usr/bin/geonode_updateip"
+ 
+- name: Update IP
+  become: yes
+  shell: "chmod +x /usr/bin/geonode"
+
+- name: Update IP
+  become: yes
+  shell: "chmod +x /usr/bin/geonode_updateip"
+
+- name: Update IP
+  become: yes
+  shell: ". {{ virtualenv_dir }}/bin/activate && geonode_updateip -p {{ server_name }}"
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
+    GEONODE_ETC: "{{ project_path }}/{{ project_name }}"
+    GEOSERVER_DATA_DIR: /data/geoserver-data/
+  args:
+    chdir: "{{ virtualenv_dir }}/src/geonode/package/support"
+
+
+
