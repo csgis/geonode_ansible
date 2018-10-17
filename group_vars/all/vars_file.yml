@@ -1,14 +1,26 @@
 ---
+# user who runs commands an owns files
 user: vagrant
-install_root: /home/vagrant
-project_name: my_geonode
+
+# Have a look at the correct Version at project readme
+# https://github.com/GeoNode/geonode-project
 django_version: 1.11.15
 
-# server ip or domain without http[s]
+# server ip or domain without http[s]://
 server_name: 192.168.33.11
 
-virtualenv_dir: "{{install_root}}/.venv/{{project_name}}"
-project_path: "{{install_root}}/{{project_name}}"
+# path settings
+project_name: my_geonode
+install_root: /home/vagrant
 
+# password settings
 db_user: geonode
 db_password: geonode
+
+# geoserver settings (not yet implemented)
+#gs_user: geonode
+#gs_password: geonode
+
+# auto filled you do not have to change here
+virtualenv_dir: "{{ install_root }}/.venv/{{ project_name }}"
+project_path: "{{ install_root }}/{{ project_name }}"
