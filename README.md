@@ -1,7 +1,7 @@
 
 # CSGIS GeoNode installation with Ansible
 ---
-This Ansible playbook aims to install GeoNode :hearts: by use of geonode-project. 
+This Ansible playbook aims to install GeoNode by use of geonode-project. 
 It tries to stay close to the installation instructions docs: http://docs.geonode.org/en/master/tutorials/install_and_admin/geonode_install/index.html
 The tasks are currently quite low level using only one role. For a more versatile playbook visit: 
 https://github.com/GeoNode/ansible-geonode
@@ -41,7 +41,7 @@ $ cat ./install.yml
 ```
 Run the main playbook which (includes other tasks) and keep fingers crossed
 ```
-ansible-playbook -v install.yml
+ansible-playbook -v site.yml
 ```
 
 ## Roadmap
