@@ -55,8 +55,8 @@ ansible-playbook -v site.yml
 
 ## Roadmap
 - Tidy up, a lot of stuff can be done by use of ansible modules instead of `shell` or `command`
-- add branch for 2.8
-- add branch for bionic
+- add branch for 2.8 and Bionic
+- add https support
 
 
 ## Contributing
