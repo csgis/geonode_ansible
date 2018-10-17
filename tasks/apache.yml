@@ -11,6 +11,18 @@
   template: src=./templates/django/local_settings.py.j2 dest={{ project_path }}/{{ project_name }}/local_settings.py
   become: yes
 
+# todo regenerate secret key
+
+#- name: regenerate secret key
+#  command: python -c 'import random; print "".join([random.choice("abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)") for i in range(50)])'
+#  register: secret_key
+
+#- replace:
+#    path: {{ project_path }}/{{ project_name }}/local_settings.py
+#    regexp: "SECRET_KEY = '###'"
+#    replace: "SECRET_KEY = '{{ secret_key.stdout }}'"
+
+
 - name: apache2 | Activate mod proxy_http
   become: yes
   command: a2enmod proxy_http

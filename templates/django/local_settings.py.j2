@@ -28,9 +28,8 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 MEDIA_ROOT = '%s/uploaded/' % PROJECT_ROOT
 STATIC_ROOT = '%s/static_root' % PROJECT_ROOT
 
-# SECRET_KEY = '************************'
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = os.getenv('SECRET_KEY', "_70s#!gl(bqdy8n7d)h71gvq_eb)_0xsw5(=_)ze4^k-t&5$0b")
+SECRET_KEY = '###'
 
 # per-deployment settings should go here
 SITE_HOST_NAME = os.getenv('SITE_HOST_NAME', "{{server_name}}")
