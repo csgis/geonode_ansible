@@ -14,7 +14,7 @@ https://github.com/GeoNode/ansible-geonode
 
 ### Directory overview
 
-- templates: J2 templates for Apache, Django, Geoserver, Tomcat. These are filled with vars from ./group_vars/all and copied by template module.
+- ./templates: J2 templates for Apache, Django, Geoserver, Tomcat. These are filled with vars from ./group_vars/all and copied by template module.
 - ./assets: Has currently one file with GeoServer build information. Will be removed after geonode build server is introduced again.
 - ./tasks: the different plays. Have a look at the GeoNode install docs. You will find similar separations
 - site.yml: the Top-Level playbook which includedes plays from ./task and dictates the order.
