@@ -16,8 +16,8 @@
 
 # create database user and databases
 - name: Postgres | Create database user
-  postgresql_user: name={{db_user}}
-                   password={{db_password}}
+  postgresql_user: name={{ db_user }}
+                   password={{ db_password }}
                    role_attr_flags=LOGIN,CREATEDB,NOSUPERUSER
   become: yes
   become_user: postgres

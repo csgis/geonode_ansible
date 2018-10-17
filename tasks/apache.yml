@@ -4,11 +4,11 @@
   become: yes
 
 - name: apache2 | Write wsgi.py
-  template: src=./templates/apache/wsgi.py.j2 dest={{project_path}}/{{project_name}}/wsgi.py
+  template: src=./templates/apache/wsgi.py.j2 dest={{ project_path }}/{{ project_name }}/wsgi.py
   become: yes
 
 - name: apache2 | Write local_settings.py
-  template: src=./templates/django/local_settings.py.j2 dest={{project_path}}/{{project_name}}/local_settings.py
+  template: src=./templates/django/local_settings.py.j2 dest={{ project_path }}/{{ project_name }}/local_settings.py
   become: yes
 
 - name: apache2 | Activate mod proxy_http
@@ -50,38 +50,38 @@
 # set file permissions
 - name: apache2 | thumbs permissions
   file:
-    path: "{{project_path}}/{{project_name}}/uploaded/thumbs"
+    path: "{{ project_path }}/{{ project_name }}/uploaded/thumbs"
     state: directory
     mode: 0777
 
 - name: apache2 | layers permissions
   file:
-    path: "{{project_path}}/{{project_name}}/uploaded/layers"
+    path: "{{ project_path }}/{{ project_name }}/uploaded/layers"
     state: directory
     mode: 0777
 
 - name: apache2 | project path permissions
   file:
-    path: "{{project_path}}"
+    path: "{{ project_path }}"
     owner: geonode
     recurse: yes
 
 - name: apache2 | static permissions
   file:
-    path: "{{project_path}}/{{project_name}}/static"
+    path: "{{ project_path }}/{{ project_name }}/static"
     owner: geonode
     group: www-data
     recurse: yes
 
 - name: apache2 | uploaded permissions
   file:
-    path: "{{project_path}}/{{project_name}}/uploaded"
+    path: "{{ project_path }}/{{ project_name }}/uploaded"
     owner: geonode
     group: www-data
     recurse: yes
 
 - name: apache2 | static_root permissions
   file:
-    path: "{{project_path}}/{{project_name}}/static_root"
+    path: "{{ project_path }}/{{ project_name }}/static_root"
     recurse: yes
     mode: 0777

@@ -10,10 +10,10 @@
   pip: 
     name: Django
     version: "{{ django_version }}"
-    virtualenv: "{{virtualenv_dir}}"
+    virtualenv: "{{ virtualenv_dir }}"
 
 - name: GeoNode | Create new Geonode geonode-project
-  command: "{{virtualenv_dir}}/bin/django-admin startproject --template=./geonode-project -e py,rst,json,yml,ini,env,sample -n Dockerfile {{ project_name }}"
+  command: "{{ virtualenv_dir }}/bin/django-admin startproject --template=./geonode-project -e py,rst,json,yml,ini,env,sample -n Dockerfile {{ project_name }}"
   args:
     chdir: "{{ install_root }}"
     creates: "{{ project_path }}"
@@ -29,17 +29,21 @@
   pip: 
     name: "{{ project_path }}/"
     editable: true
-    virtualenv: "{{virtualenv_dir}}"
+    virtualenv: "{{ virtualenv_dir }}"
     extra_args: --upgrade
 
+- name: GeoNode | Get gdal_version 
+  shell: gdal-config --version | cut -c 1-5 
+  register: gdal_version
+
 - name: GeoNode | Install correct pygdal version
-  command: "{{ virtualenv_dir }}/bin/pip install pygdal>={{gdal_version.stdout}}.0,<={{gdal_version.stdout}}.999"
+  command: "{{ virtualenv_dir }}/bin/pip install pygdal>={{ gdal_version.stdout }}.0,<={{ gdal_version.stdout }}.999"
 
 - name: GeoNode | Copy file with geoserver build information
   copy:
     src: ./assets/dev_config.yml
     dest: "{{ project_path }}/dev_config.yml"
-    owner: "{{user}}"
-    group: "{{user}}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
     mode: 0744 
 
