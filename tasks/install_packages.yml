@@ -1,5 +1,4 @@
 ---
- 
 - name: OS | Install a list of packages
   become: yes
   apt:

@@ -1,5 +1,4 @@
 ---
-
 - name: Service | Update IP
   become: yes
   shell: "cp {{ virtualenv_dir }}/src/geonode/package/support/geonode.binary /usr/bin/geonode"

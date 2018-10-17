@@ -26,8 +26,12 @@
 - name: apache2 | Check config
   command: apache2ctl configtest
   ignore_errors: True
-  notify:
-    - restart apache
+
+- name: Tomcat | start
+  become: yes
+  service:
+    name: apache2
+    state: start
 
 
 # migrate and collect files

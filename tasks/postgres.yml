@@ -1,5 +1,4 @@
 ---
-
 # configure postgresql
 - name: Postgres | Write the pg_hba.conf file 
   template: src=./templates/postgres/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
@@ -9,9 +8,11 @@
   template: src=./templates/postgres/postgresql.conf dest=/etc/postgresql/9.5/main/postgresql.conf
   become: yes
 
-- name: Postgres | Restart
-  command: /etc/init.d/postgresql restart
+- name: Tomcat | start
   become: yes
+  service:
+    name: postgresql
+    state: start
 
 # create database user and databases
 - name: Postgres | Create database user

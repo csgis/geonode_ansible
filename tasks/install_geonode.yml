@@ -1,5 +1,4 @@
 ---
-
 - name: GeoNode | Clone source
   git:
     repo: 'https://github.com/GeoNode/geonode-project.git'

@@ -1,7 +1,9 @@
 ---
-- name: GeoServer | Stop Tomcat
+- name: Tomcat | stop
   become: yes
-  command: service tomcat8 stop
+  service:
+    name: tomcat8
+    state: stop
 
 - name: GeoServer | Copy Geoserver directory
   become: yes
@@ -47,6 +49,8 @@
   template: src=./templates/gs/global.conf.j2 dest=/data/geoserver-data/global.xml
   become: yes
 
-- name: GeoServer | Start Tomcat
+- name: Tomcat | start
   become: yes
-  command: service tomcat8 start
+  service:
+    name: tomcat8
+    state: start
