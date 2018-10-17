@@ -8,8 +8,8 @@ https://github.com/GeoNode/ansible-geonode
 
 ### Prerequisites
 ```
-- Install ansible https://www.ansible.com/
-- install Python on your target instance:  $ sudo apt install python-minimal
+- Install Ansible https://www.ansible.com/
+- Install Python on your target instance:  $ sudo apt install python-minimal
 ```
 
 ### File / Directory overview
