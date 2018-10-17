@@ -26,6 +26,8 @@
 - name: apache2 | Check config
   command: apache2ctl configtest
   ignore_errors: True
+  notify:
+    - restart apache
 
 
 # migrate and collect files
@@ -79,9 +81,3 @@
     path: "{{project_path}}/{{project_name}}/static_root"
     recurse: yes
     mode: 0777
-
-- name: Restart apache2, in all cases
-  service:
-    name: httpd
-    state: restarted
-
