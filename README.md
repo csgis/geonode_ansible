@@ -1,7 +1,7 @@
 
 # CSGIS GeoNode installation with Ansible
 ---
-This Ansible playbook aims to install GeoNode by use of geonode-project. 
+This Ansible playbook aims to install GeoNode by use of geonode-project to an Ubuntu Server. 
 It tries to stay close to the installation instructions docs: http://docs.geonode.org/en/master/tutorials/install_and_admin/geonode_install/index.html
 The tasks are currently quite low level using only one role. For a more versatile playbook visit: 
 https://github.com/GeoNode/ansible-geonode
@@ -11,6 +11,14 @@ https://github.com/GeoNode/ansible-geonode
 - Install ansible https://www.ansible.com/
 - install Python on your target instance:  $ sudo apt install python-minimal
 ```
+
+### Directory overview
+
+- templates: J2 templates for Apache, Django, Geoserver, Tomcat. These are filled with vars from ./group_vars/all and copied by template module.
+- ./assets: Has currently one file with GeoServer build information. Will be removed after geonode build server is introduced again.
+- ./tasks: the different plays. Have a look at the GeoNode install docs. You will find similar separations
+- site.yml: the Top-Level playbook which includedes plays from ./task and dictates the order.
+
 
 ### Installing
 
