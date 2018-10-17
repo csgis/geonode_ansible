@@ -46,7 +46,7 @@ $ ls ./tasks
 ```
 Get familiar with the main playbook and the order tasks are run
 ```
-$ cat ./install.yml
+$ cat ./site.yml
 ```
 Run the main playbook which (includes other tasks) and keep fingers crossed
 ```
