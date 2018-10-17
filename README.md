@@ -38,7 +38,7 @@ geonode     ansible_ssh_port=2222     ansible_ssh_host=127.0.0.1 ansible_connect
 
 Edit the variables depending on your needs
 ```
-vim ./group_vars/all/vars_file.yml
+vim ./group_vars/all
 ```
 Get familiar with the tasks in:
 ```
