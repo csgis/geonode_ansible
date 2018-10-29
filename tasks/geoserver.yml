@@ -67,13 +67,27 @@
   template: src=./templates/gs/catalina.properties dest=/var/lib/tomcat8/conf/catalina.properties
   become: yes
 
-# - name: geoserver | Write config.conf 
-#   template: src=./templates/gs/config.xml.j2 dest=/data/geoserver-data/security/filter/geonode-oauth2/config.xml
-#   become: yes
+- name: geoserver | Write config.conf 
+  template: src=./templates/gs/config.xml.j2 dest=/data/geoserver-data/security/filter/geonode-oauth2/config.xml
+  become: yes
 
-# - name: geoserver | Write global.xml 
-#   template: src=./templates/gs/global.xml.j2 dest=/data/geoserver-data/global.xml
-#   become: yes
+- name: apache | Permissions config.conf 
+  become: yes
+  file:
+    path: /data/geoserver-data/security/filter/geonode-oauth2/config.xml
+    owner: tomcat8
+    group: tomcat8
+
+- name: geoserver | Write global.xml 
+  template: src=./templates/gs/global.xml.j2 dest=/data/geoserver-data/global.xml
+  become: yes
+
+- name: apache | Permissions /data/geoserver-data/global.xml
+  become: yes
+  file:
+    path: /data/geoserver-data/global.xml
+    owner: tomcat8
+    group: tomcat8
 
 - name: geoserver | Tomcat start
   become: yes
