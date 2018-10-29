@@ -15,15 +15,19 @@
   become: yes
   shell: "chmod +x /usr/bin/geonode_updateip"
 
+- file:
+    src: "{{ virtualenv_dir }}/bin/django-admin.py"
+    dest: /usr/local/bin/django-admin
+    owner: "{{ user }}"
+    state: link
+  become: yes
+
 - name: Service | Run geonode_updateip
   become: yes
   shell: ". {{ virtualenv_dir }}/bin/activate && geonode_updateip -p {{ server_name }}"
   environment:
     DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
     GEONODE_ETC: "{{ project_path }}/{{ project_name }}"
-    GEOSERVER_DATA_DIR: /data/geoserver-data/
-  args:
-    chdir: "{{ virtualenv_dir }}/src/geonode/package/support"
-
+    GEOSERVER_DATA_DIR: /data/geoserver-data
 
 

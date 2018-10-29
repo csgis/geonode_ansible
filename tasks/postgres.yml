@@ -1,58 +1,58 @@
 ---
 # configure postgresql
-- name: Postgres | Write the pg_hba.conf file 
+- name: postgresql | Write the pg_hba.conf file 
   template: src=./templates/postgres/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
   become: yes
 
-- name: Postgres | Write the pg_hba.conf file 
+- name: postgresql | Write the pg_hba.conf file 
   template: src=./templates/postgres/postgresql.conf dest=/etc/postgresql/9.5/main/postgresql.conf
   become: yes
 
-- name: Tomcat | start
+- name: postgresql | restart
   become: yes
   service:
     name: postgresql
-    state: start
+    state: restarted
 
 # create database user and databases
-- name: Postgres | Create database user
+- name: postgresql | Create database user
   postgresql_user: name={{ db_user }}
                    password={{ db_password }}
                    role_attr_flags=LOGIN,CREATEDB,NOSUPERUSER
   become: yes
   become_user: postgres
 
-- name: Postgres | Create database geonode
+- name: postgresql | Create database geonode
   postgresql_db:
     name: geonode
     encoding: UTF-8
 
-- name: Postgres | Create database geonode_data
+- name: postgresql | Create database geonode_data
   postgresql_db:
     name: geonode_data
     encoding: UTF-8
 
-- name: Postgres | Create extension postgis
+- name: postgresql | Create extension postgis
   postgresql_ext:
     name: postgis
     db: geonode_data
 
 # Grant privilegs
-- name: Postgres | Create permissions geometry_columns
+- name: postgresql | Create permissions geometry_columns
   postgresql_privs:
     db: geonode_data
     privs: ALL
     objs: geometry_columns
     role: PUBLIC
 
-- name: Postgres | Create permissions spatial_ref_sys
+- name: postgresql | Create permissions spatial_ref_sys
   postgresql_privs:
     db: geonode_data
     privs: ALL
     objs: spatial_ref_sys
     role: PUBLIC
 
-- name: Postgres | Create permissions for role geonode to geonode
+- name: postgresql | Create permissions for role geonode to geonode
   become: yes
   become_user: postgres
   postgresql_privs:
@@ -61,7 +61,7 @@
     objs: ALL_IN_SCHEMA
     privs: SELECT,INSERT,UPDATE,DELETE
 
-- name: Postgres | Create permissions for role geonode to geonode_data
+- name: postgresql | Create permissions for role geonode to geonode_data
   become: yes
   become_user: postgres
   postgresql_privs:

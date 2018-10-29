@@ -1,13 +1,13 @@
 ---
-- name: apache2 | Write geonode.conf 
+- name: apache | Write geonode.conf 
   template: src=./templates/apache/geonode.conf.j2 dest=/etc/apache2/sites-available/geonode.conf
   become: yes
 
-- name: apache2 | Write wsgi.py
+- name: apache | Write wsgi.py
   template: src=./templates/apache/wsgi.py.j2 dest={{ project_path }}/{{ project_name }}/wsgi.py
   become: yes
 
-- name: apache2 | Write local_settings.py
+- name: apache | Write local_settings.py
   template: src=./templates/django/local_settings.py.j2 dest={{ project_path }}/{{ project_name }}/local_settings.py
   become: yes
 
@@ -23,27 +23,27 @@
 #    replace: "SECRET_KEY = '{{ secret_key.stdout }}'"
 
 
-- name: apache2 | Activate mod proxy_http
+- name: apache | Activate mod proxy_http
   become: yes
   command: a2enmod proxy_http
 
-- name: apache2 | Deactivate 000-default virtualhost
+- name: apache | Deactivate 000-default virtualhost
   become: yes
   command: a2dissite 000-default
 
-- name: apache2 | Activate geonode virtualhost
+- name: apache | Activate geonode virtualhost
   become: yes
   command: a2ensite geonode
 
-- name: apache2 | Check config
+- name: apache | Check config
   command: apache2ctl configtest
   ignore_errors: True
 
-- name: Tomcat | start
+- name: Tomcat | restart
   become: yes
   service:
     name: apache2
-    state: start
+    state: restarted
 
 
 # migrate and collect files
@@ -60,39 +60,43 @@
     virtualenv: "{{ virtualenv_dir }}"
 
 # set file permissions
-- name: apache2 | thumbs permissions
+- name: apache | thumbs permissions
   file:
     path: "{{ project_path }}/{{ project_name }}/uploaded/thumbs"
     state: directory
     mode: 0777
 
-- name: apache2 | layers permissions
+- name: apache | layers permissions
   file:
     path: "{{ project_path }}/{{ project_name }}/uploaded/layers"
     state: directory
     mode: 0777
 
-- name: apache2 | project path permissions
+- name: apache | project path permissions
+  become: yes
   file:
     path: "{{ project_path }}"
-    owner: geonode
+    owner: "{{ user }}"
     recurse: yes
 
-- name: apache2 | static permissions
+- name: apache | static permissions
+  become: yes
   file:
     path: "{{ project_path }}/{{ project_name }}/static"
-    owner: geonode
+    owner: "{{ user }}"
     group: www-data
     recurse: yes
 
-- name: apache2 | uploaded permissions
+- name: apache | uploaded permissions
+  become: yes
   file:
     path: "{{ project_path }}/{{ project_name }}/uploaded"
-    owner: geonode
+    owner: "{{ user }}"
     group: www-data
     recurse: yes
 
-- name: apache2 | static_root permissions
+- name: apache | static_root permissions
+  become: yes
   file:
     path: "{{ project_path }}/{{ project_name }}/static_root"
     recurse: yes
