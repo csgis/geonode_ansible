@@ -31,7 +31,7 @@
 
 - name: helper_update_ip | run geonode_updateip
   become: yes
-  shell: ". {{ virtualenv_dir }}/bin/activate && geonode_updateip -p {{ server_name }}"
+  shell: ". {{ virtualenv_dir }}/bin/activate && geonode_updateip {{ server_name }}"
   environment:
     DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
     GEONODE_ETC: "{{ project_path }}/{{ project_name }}"
