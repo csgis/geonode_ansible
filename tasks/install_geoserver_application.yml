@@ -83,6 +83,13 @@
     group: tomcat8
   become: yes
 
+- name: install_geoserver_application | write user.xml 
+  template: 
+    src: ./templates/gs/users.xml.j2
+    dest: /data/geoserver-data/security/usergroup/default/users.xml
+    owner: tomcat8
+    group: tomcat8
+  become: yes
 
 - name: install_geoserver_application | start tomcat 
   become: yes

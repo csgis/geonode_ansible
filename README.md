@@ -30,7 +30,8 @@ Clone this repository
 git clone https://github.com/csgis/geonode_ansible.git
 ```
 
-Add the user and key settings used for installation to your `hosts` file
+Add the user and key settings used for installation to your `hosts` file. 
+> Pay special attention here! The user gets ownership of several files/folders and should be member of sudoers.
 
 ```
 [geonode]
@@ -54,16 +55,21 @@ Run the main playbook which (includes other tasks) and keep fingers crossed
 ansible-playbook -v -i hosts site.yml
 ```
 
-## Roadmap
+### Steps after finishing installation
+- log into geonodes admin interface with admin/admin and change the admin credentials
+- the geoserver password is written plain to `/data/geoserver-data/security/usergroup/default/user.xml` we can enrypt it easily by visiting the geoserver gui and navigate to 'User,Group,Roles' (left menu) -> User/groups tabs -> admin user and save it again without changing anything. 
+
+
+
+### Roadmap
 - Tidy up
 - check file permissions
 - add branch for 2.8 and Bionic
 - add https support
-- add geoserver password to config
 
 
-## Contributing
+### Contributing
 ... is very welcome
 
-## License
+### License
 This project is licensed under the MIT License.

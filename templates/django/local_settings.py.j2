@@ -59,8 +59,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'geonode',
-        'USER': 'geonode',
-        'PASSWORD': 'geonode',
+        'USER': '{{db_user}}',
+        'PASSWORD': '{{db_password}}',
         'HOST': 'localhost',
         'PORT': '5432',
         'CONN_TOUT': 900,
@@ -70,8 +70,8 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         # 'ENGINE': '', # Empty ENGINE name disables
         'NAME': 'geonode_data',
-        'USER': 'geonode',
-        'PASSWORD': 'geonode_data',
+        'USER': '{{db_user}}',
+        'PASSWORD': '{{db_password}}',
         'HOST': 'localhost',
         'PORT': '5432',
         'CONN_TOUT': 900,
@@ -91,15 +91,18 @@ GEOSERVER_PUBLIC_PORT = os.getenv(
 )
 
 GEOSERVER_PUBLIC_LOCATION = os.getenv(
-    'GEOSERVER_PUBLIC_LOCATION', 'http://{}:{}/geoserver/'.format(GEOSERVER_PUBLIC_HOST, GEOSERVER_PUBLIC_PORT)
+    #'GEOSERVER_PUBLIC_LOCATION', 'http://{}:{}/geoserver/'.format(GEOSERVER_PUBLIC_HOST, GEOSERVER_PUBLIC_PORT)
+    # we assume to run on port 80, removed part as it brought problems with redirect_uri
+    'GEOSERVER_PUBLIC_LOCATION', 'http://{}/geoserver/'.format(GEOSERVER_PUBLIC_HOST)
+
 )
 
 OGC_SERVER_DEFAULT_USER = os.getenv(
-    'GEOSERVER_ADMIN_USER', 'admin'
+    'GEOSERVER_ADMIN_USER', '{{gs_user}}'
 )
 
 OGC_SERVER_DEFAULT_PASSWORD = os.getenv(
-    'GEOSERVER_ADMIN_PASSWORD', 'geoserver'
+    'GEOSERVER_ADMIN_PASSWORD', '{{gs_password}}'
 )
 
 # OGC (WMS/WFS/WCS) Server Settings

@@ -1,16 +1,15 @@
 ---
 - hosts: geonode
   tasks:
-    # - import_tasks: ./tasks/install_geonode_packages.yml
-    # - import_tasks: ./tasks/install_geonode.yml
+    - import_tasks: ./tasks/install_geonode_packages.yml
+    - import_tasks: ./tasks/install_geonode.yml
 
-    # - import_tasks: ./tasks/helper/paver_setup.yml
+    - import_tasks: ./tasks/helper/paver_setup.yml
     
-    # - import_tasks: ./tasks/create_geonode_db.yml
-    # - import_tasks: ./tasks/setup_configure_httpd.yml
-    # - import_tasks: ./tasks/helper/paver_sync.yml
+    - import_tasks: ./tasks/create_geonode_db.yml
+    - import_tasks: ./tasks/setup_configure_httpd.yml
+    - import_tasks: ./tasks/helper/paver_sync.yml
     
-    # - import_tasks: ./tasks/install_geoserver_application.yml
+    - import_tasks: ./tasks/install_geoserver_application.yml
     - import_tasks: ./tasks/helper/update_ip.yml
     
-    # - import_tasks: ./tasks/helper_generate_secret.yml
