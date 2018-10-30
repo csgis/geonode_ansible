@@ -1,0 +1,40 @@
+---
+- name: helper_update_ip | copy geonode.binary
+  copy:
+    src: "{{ virtualenv_dir }}/src/geonode/package/support/geonode.binary"
+    dest: /usr/bin/geonode
+    remote_src: yes
+  become: yes
+
+- name: helper_update_ip | copy geonode.updateip
+  copy:
+      src: "{{ virtualenv_dir }}/src/geonode/package/support/geonode.updateip"
+      dest: /usr/bin/geonode_updateip
+      remote_src: yes
+  become: yes
+
+- name: helper_update_ip | make "/usr/bin/geonode" executable geonode
+  file: dest=/usr/bin/geonode mode=a+x
+  become: yes
+
+- name: helper_update_ip | make "geonode_updateip" executable geonode
+  file: dest=/usr/bin/geonode_updateip mode=a+x
+  become: yes
+
+- name: helper_update_ip | create symlink
+  file:
+    src: "{{ virtualenv_dir }}/bin/django-admin.py"
+    dest: /usr/local/bin/django-admin
+    owner: "{{ user }}"
+    state: link
+  become: yes
+
+- name: helper_update_ip | run geonode_updateip
+  become: yes
+  shell: ". {{ virtualenv_dir }}/bin/activate && geonode_updateip -p {{ server_name }}"
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
+    GEONODE_ETC: "{{ project_path }}/{{ project_name }}"
+    GEOSERVER_DATA_DIR: /data/geoserver-data
+
+

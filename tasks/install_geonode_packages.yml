@@ -1,5 +1,5 @@
 ---
-- name: OS_packages | Install list of packages
+- name: install_geonode_packages | install list of dependency packages
   become: yes
   apt:
     name: "{{ packages }}"
@@ -28,38 +28,38 @@
       - postfix
       - software-properties-common
 
-- name: OS_packages | Add Oracle Java Repository
+- name: install_geonode_packages | add oracle java repository
   become: yes
   apt_repository: repo='ppa:webupd8team/java'
 
-- name: OS_packages | Accept Java 8 License
+- name: install_geonode_packages | accept java8 license
   become: yes
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
 
-- name: OS_packages | Install Oracle Java 8
+- name: install_geonode_packages | install oracle java 8
   become: yes
   apt: name={{item}} state=latest
   loop: ['oracle-java8-installer', 'ca-certificates', 'oracle-java8-set-default']
 
-- name: OS_packages | Add Ubuntugis Repository
+- name: install_geonode_packages | add ubuntugis repository
   become: yes
   apt_repository: repo='ppa:ubuntugis'
 
-- name: OS_packages | Upgrade apt packages
+- name: install_geonode_packages | upgrade apt packages
   become: true
   apt:
     upgrade: yes
 
-- name: OS_packages | Add Ubuntugis/ppa Repository
+- name: install_geonode_packages | add ubuntugis/ppa repository
   become: yes
   apt_repository: repo='ppa:ubuntugis/ppa'
 
-- name: OS_packages | Upgrade apt packages
+- name: install_geonode_packages | upgrade apt packages
   become: true
   apt:
     upgrade: yes
 
-- name: OS_packages | Install a list of packages
+- name: install_geonode_packages | install a list of dependency packages
   become: yes
   apt:
     name: "{{ packages }}"
@@ -77,12 +77,11 @@
       - libxml2-dev 
       - libxslt-dev
 
-- name: OS_packages | Add Ubuntugis/ubuntugis-testing Repository
+- name: install_geonode_packages | add ubuntugis/ubuntugis-testing repository
   become: yes
   apt_repository: repo='ppa:ubuntugis/ubuntugis-testing'
 
-
-- name: OS_packages | Install a list of packages
+- name: install_geonode_packages | install a list of dependency packages
   become: yes
   apt:
     name: "{{ packages }}"
@@ -106,18 +105,10 @@
       # remove after testing
       - tomcat8-admin
 
-- name: OS_packages | Upgrade apt packages
+- name: install_geonode_packages | upgrade apt packages
   become: yes
   apt:
     upgrade: yes
     autoremove: yes
     autoclean: yes
     purge: yes
-
-
-
-
-
-
-
-

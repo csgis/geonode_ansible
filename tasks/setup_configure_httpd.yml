@@ -1,0 +1,79 @@
+---
+# copy templates
+- name: setup_configure_httpd | write geonode.conf 
+  template: src=./templates/apache/geonode.conf.j2 dest=/etc/apache2/sites-available/geonode.conf
+  become: yes
+
+- name: setup_configure_httpd | write wsgi.py
+  template: src=./templates/apache/wsgi.py.j2 dest={{ project_path }}/{{ project_name }}/wsgi.py
+  become: yes
+
+- name: setup_configure_httpd | write local_settings.py
+  template: src=./templates/django/local_settings.py.j2 dest={{ project_path }}/{{ project_name }}/local_settings.py
+  become: yes
+
+# configure apache
+- name: setup_configure_httpd | activate mod proxy_http
+  become: yes
+  command: a2enmod proxy_http
+
+- name: setup_configure_httpd | deactivate 000-default virtualhost
+  become: yes
+  command: a2dissite 000-default
+
+- name: setup_configure_httpd | activate geonode virtualhost
+  become: yes
+  command: a2ensite geonode
+
+# restart service
+- name: setup_configure_httpd | apache restart
+  become: yes
+  service:
+    name: apache2
+    state: restarted
+
+# migrate and collect files
+- name: setup_configure_httpd | manage.py migrate
+  django_manage:
+    command: migrate
+    app_path: "{{ project_path }}"
+    virtualenv: "{{ virtualenv_dir }}"
+
+- name: setup_configure_httpd | manage.py collectstatic
+  django_manage:
+    command: collectstatic
+    app_path: "{{ project_path }}"
+    virtualenv: "{{ virtualenv_dir }}"
+
+# set folder permissions
+- name: setup_configure_httpd | folder permissions
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+    recurse: yes
+  with_items:
+    - "{{ project_path }}/{{ project_name }}/uploaded/thumbs"
+    - "{{ project_path }}/{{ project_name }}/uploaded/layers"
+    - "{{ project_path }}/{{ project_name }}/static_root"
+
+- name: setup_configure_httpd | project path permissions
+  become: yes
+  file:
+    path: "{{ project_path }}"
+    owner: "{{ user }}"
+    recurse: yes
+
+- name: setup_configure_httpd | set www-data permissions
+  become: yes
+  file:
+    path: "{{ project_path }}/{{ project_name }}/uploaded"
+    owner: "{{ user }}"
+    group: www-data
+    recurse: yes
+  with_items:
+    - "{{ project_path }}/{{ project_name }}/static"
+    - "{{ project_path }}/{{ project_name }}/uploaded"
+
+
+

@@ -1,45 +1,45 @@
 ---
-- name: geonode | Clone source
+- name: install_geonode | clone geonode-project
   git:
-    repo: 'https://github.com/GeoNode/geonode-project.git'
+    repo: "{{ geonode_project_repository }}"
     dest: "{{ install_root }}/geonode-project"
     clone: yes
     version: master
 
-- name: geonode | Install Django
+- name: install_geonode | install django
   pip: 
     name: Django
     version: "{{ django_version }}"
     virtualenv: "{{ virtualenv_dir }}"
 
-- name: geonode | Create new Geonode geonode-project
+- name: install_geonode | create new geonode-project
   command: "{{ virtualenv_dir }}/bin/django-admin startproject --template=./geonode-project -e py,rst,json,yml,ini,env,sample -n Dockerfile {{ project_name }}"
   args:
     chdir: "{{ install_root }}"
     creates: "{{ project_path }}"
 
-- name: geonode | Install requirements.txt
+- name: install_geonode | install requirements.txt
   pip: 
     requirements: "{{ project_path }}/requirements.txt"
     virtualenv: "{{ virtualenv_dir }}"
     chdir: "{{ project_path }}"
     extra_args: --upgrade 
 
-- name: geonode | Upgrade pip packages 
+- name: install_geonode | upgrade pip packages 
   pip: 
     name: "{{ project_path }}/"
     editable: true
     virtualenv: "{{ virtualenv_dir }}"
     extra_args: --upgrade
 
-- name: geonode | Get gdal_version 
-  shell: gdal-config --version | cut -c 1-5 
+- name: install_geonode | get installed gdal_version 
+  command: gdal-config --version | cut -c 1-5 
   register: gdal_version
 
-- name: geonode | Install correct pygdal version
+- name: install_geonode | install correct pygdal version
   command: "{{ virtualenv_dir }}/bin/pip install pygdal>={{ gdal_version.stdout }}.0,<={{ gdal_version.stdout }}.999"
 
-- name: geonode | Copy file with geoserver build information
+- name: install_geonode | copy file with geoserver build information
   copy:
     src: ./assets/dev_config.yml
     dest: "{{ project_path }}/dev_config.yml"

@@ -15,9 +15,11 @@ https://github.com/GeoNode/ansible-geonode
 ### File / Directory overview
 
 - site.yml: the Top-Level playbook which includes plays from ./task and dictates the order.
+- hosts: the inventory file (https://docs.ansible.com/ansible/2.5/user_guide/intro_inventory.html)
 - ./templates: J2 templates for Apache, Django, Geoserver, Tomcat. These are filled with vars from ./group_vars/all and copied by template module.
 - ./assets: Has currently one file with GeoServer build information. Will be removed after geonode build server is introduced again.
-- ./tasks: the different plays. Have a look at the GeoNode install docs. You will find similar separations
+- ./tasks: the different plays. Have a look at the GeoNode install docs. You will find similar chapters
+
 
 
 ### Installing
@@ -28,7 +30,7 @@ Clone this repository
 git clone https://github.com/csgis/geonode_ansible.git
 ```
 
-Add the user used for installation to your `/etc/ansible/hosts` file
+Add the user and key settings used for installation to your `hosts` file
 
 ```
 [geonode]
@@ -49,13 +51,15 @@ $ cat ./site.yml
 ```
 Run the main playbook which (includes other tasks) and keep fingers crossed
 ```
-ansible-playbook -v site.yml
+ansible-playbook -v -i hosts site.yml
 ```
 
 ## Roadmap
-- Tidy up, a lot of stuff can be done by use of ansible modules instead of `shell` or `command`
+- Tidy up
+- check file permissions
 - add branch for 2.8 and Bionic
 - add https support
+- add geoserver password to config
 
 
 ## Contributing

@@ -1,7 +1,7 @@
 ---
-- name: paver_sync | sync
+- name: helper_paver_sync | paver sync
   shell: ". {{ virtualenv_dir }}/bin/activate && paver sync"
   environment:
-    DJANGO_SETTINGS_MODULE: "{{ project_name }}.settings"
+    DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
   args:
     chdir: "{{ project_path }}"

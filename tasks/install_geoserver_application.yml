@@ -1,0 +1,91 @@
+---
+- name: install_geoserver_application | stop tomcat
+  become: yes
+  service:
+    name: tomcat8
+    state: stopped
+
+# folder setup
+- name: install_geoserver_application | copy geoserver directory
+  become: yes
+  command: cp -Rf {{ project_path }}/geoserver/geoserver/ /var/lib/tomcat8/webapps/
+
+- name: install_geoserver_application | set permissions /var/lib/tomcat8/webapps/geoserver'
+  become: yes
+  file:
+    path: /var/lib/tomcat8/webapps/geoserver
+    owner: tomcat8
+    recurse: yes
+
+- name: install_geoserver_application | create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: tomcat8
+    mode: 0775
+  become: yes
+  with_items:
+    - /data/geoserver-data
+    - /data/geoserver-logs
+    - /data/gwc_cache_dir
+
+- name: install_geoserver_application | copy geoserver data directory
+  become: yes
+  command: cp -Rf {{ project_path }}/geoserver/data/. /data/geoserver-data/
+
+
+# permissions
+- name: install_geoserver_application | set permissions /var/lib/tomcat8/webapps/geoserver
+  become: yes
+  file:
+    path: "{{ item }}"
+    owner: tomcat8
+    recurse: yes
+  with_items:
+    - /data/geoserver-data/
+    - /data/geoserver-logs/
+    - /data/gwc_cache_dir/
+
+- name: install_geoserver_application | write tomcat-users.xml
+  template: 
+    src: ./templates/gs/tomcat-users.xml 
+    dest: /etc/tomcat8/tomcat-users.xml
+    owner: root
+    group: tomcat8
+  become: yes
+
+# config from templates
+- name: install_geoserver_application | write tomcat8
+  template: 
+    src: ./templates/gs/tomcat8 
+    dest: /etc/default/tomcat8
+  become: yes
+
+- name: install_geoserver_application | write catalina.properties
+  template: 
+    src: ./templates/gs/catalina.properties 
+    dest: /var/lib/tomcat8/conf/catalina.properties
+  become: yes
+
+- name: install_geoserver_application | write config.conf 
+  template: 
+    src: ./templates/gs/config.xml.j2 
+    dest: /data/geoserver-data/security/filter/geonode-oauth2/config.xml
+    owner: tomcat8
+    group: tomcat8
+  become: yes
+
+- name: install_geoserver_application | write global.xml 
+  template: 
+    src: ./templates/gs/global.xml.j2 
+    dest: /data/geoserver-data/global.xml
+    owner: tomcat8
+    group: tomcat8
+  become: yes
+
+
+- name: install_geoserver_application | start tomcat 
+  become: yes
+  service:
+    name: tomcat8
+    state: started
