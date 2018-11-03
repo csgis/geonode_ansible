@@ -14,7 +14,7 @@ geonode_project_repository: https://github.com/GeoNode/geonode-project.git
 
 # path settings
 project_name: my_geonode
-install_root: /home/vagrant
+install_root: "/home/{{ user }}"
 
 # password settings for database
 db_user: geonode
