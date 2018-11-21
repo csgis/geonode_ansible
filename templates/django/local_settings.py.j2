@@ -21,7 +21,7 @@
 """ There are 3 ways to override GeoNode settings:
    1. Using environment variables, if your changes to GeoNode are minimal.
    2. Creating a downstream project, if you are doing a lot of customization.
-   3. Override settings in a local_settings.py file, legacy.
+   3. Override settings in a local_settings.py file, legacy. 
 """
 
 import ast
@@ -30,14 +30,12 @@ from urlparse import urlparse, urlunparse
 from geonode.settings import *
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-
 MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(PROJECT_ROOT, "uploaded"))
-LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
-TEMPLATES[0]['DIRS'].insert(0, os.path.join(LOCAL_ROOT, "templates"))
-
 STATIC_ROOT = os.getenv('STATIC_ROOT',
                         os.path.join(PROJECT_ROOT, "static_root")
                         )
+LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
+TEMPLATES[0]['DIRS'].insert(0, os.path.join(LOCAL_ROOT, "templates"))
 
 # SECRET_KEY = '************************'
 # Make this unique, and don't share it with anybody.
