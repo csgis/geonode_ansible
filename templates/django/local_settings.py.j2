@@ -27,6 +27,8 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 MEDIA_ROOT = '%s/uploaded/' % PROJECT_ROOT
 STATIC_ROOT = '%s/static_root' % PROJECT_ROOT
+LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
+TEMPLATES[0]['DIRS'].insert(0, os.path.join(LOCAL_ROOT, "templates"))
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '###'
