@@ -64,7 +64,6 @@ ansible-playbook -v -i hosts site.yml
 ### Roadmap
 - Tidy up
 - check file permissions
-- add branch for Bionic
 - add https support
 
 
