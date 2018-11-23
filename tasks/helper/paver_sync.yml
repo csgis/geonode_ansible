@@ -5,3 +5,7 @@
     DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
   args:
     chdir: "{{ project_path }}"
+
+- name: helper_paver_sync | apache2 envvars
+  command: echo "export DJANGO_SETTINGS_MODULE={{ project_name }}.local_settings" | tee --append /etc/apache2/envvars
+  become: yes

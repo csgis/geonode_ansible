@@ -17,7 +17,7 @@
       - git
       - default-jdk
       - build-essential
-      # - openssh-server
+      - openssh-server
       - gettext
       - nano
       - vim 
@@ -41,24 +41,6 @@
   apt: name={{item}} state=latest
   loop: ['oracle-java8-installer', 'ca-certificates', 'oracle-java8-set-default']
 
-- name: install_geonode_packages | add ubuntugis repository
-  become: yes
-  apt_repository: repo='ppa:ubuntugis'
-
-- name: install_geonode_packages | upgrade apt packages
-  become: true
-  apt:
-    upgrade: yes
-
-- name: install_geonode_packages | add ubuntugis/ppa repository
-  become: yes
-  apt_repository: repo='ppa:ubuntugis/ppa'
-
-- name: install_geonode_packages | upgrade apt packages
-  become: true
-  apt:
-    upgrade: yes
-
 - name: install_geonode_packages | install a list of dependency packages
   become: yes
   apt:
@@ -77,10 +59,6 @@
       - libxml2-dev 
       - libxslt-dev
 
-- name: install_geonode_packages | add ubuntugis/ubuntugis-testing repository
-  become: yes
-  apt_repository: repo='ppa:ubuntugis/ubuntugis-testing'
-
 - name: install_geonode_packages | install a list of dependency packages
   become: yes
   apt:
@@ -93,17 +71,22 @@
       - libgdal-dev
       - python-gdal 
       - python-pycurl 
-      - python-imaging 
+      - python-pil
+
       - python-pastescript 
       - python-psycopg2 
       - python-urlgrabber
       - postgresql 
       - postgis 
-      - postgresql-9.5-postgis-scripts 
+      - postgresql-10-postgis-2.4-scripts
       - postgresql-contrib
       - tomcat8
       # remove after testing
       - tomcat8-admin
+
+- name: install_geonode_packages | update pip
+  command: pip install pip==9.0.1;
+  become: yes
 
 - name: install_geonode_packages | upgrade apt packages
   become: yes

@@ -13,9 +13,21 @@
   become: yes
 
 # configure apache
+- name: setup_configure_httpd | activate mod proxy
+  become: yes
+  command: a2enmod proxy
+
 - name: setup_configure_httpd | activate mod proxy_http
   become: yes
   command: a2enmod proxy_http
+
+- name: setup_configure_httpd | activate mod proxy_ajp
+  become: yes
+  command: a2enmod proxy_ajp
+
+- name: setup_configure_httpd | activate mod wsgi
+  become: yes
+  command: a2enmod wsgi
 
 - name: setup_configure_httpd | deactivate 000-default virtualhost
   become: yes
