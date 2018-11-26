@@ -1,21 +1,33 @@
 ---
-- name: install_geoserver_application | stop tomcat
+- name: install_geoserver_application | stop tomcat 
+  shell: service tomcat8 stop
   become: yes
-  service:
-    name: tomcat8
-    state: stopped
+
+- name: install_geoserver_application | change catalina.properties
+  command: sed -i -e 's/xom-\*\.jar/xom-\*\.jar,bcprov\*\.jar/g' /var/lib/tomcat8/conf/catalina.properties
+  become: yes
+
+- name: install_geonode_packages | write tomcat8
+  template: 
+    src: ./templates/gs/tomcat8 
+    dest: /etc/default/tomcat8
+  become: yes
+
+- name: install_geoserver_application | stop apache2 
+  shell: service apache2 stop
+  become: yes
 
 # folder setup
 - name: install_geoserver_application | copy geoserver directory
+  command: cp -Rf {{ project_path }}/downloaded/geoserver-2.14.x.war /var/lib/tomcat8/webapps/geoserver.war
   become: yes
-  command: cp -Rf {{ project_path }}/geoserver/geoserver/ /var/lib/tomcat8/webapps/
 
-- name: install_geoserver_application | set permissions /var/lib/tomcat8/webapps/geoserver'
-  become: yes
-  file:
-    path: /var/lib/tomcat8/webapps/geoserver
-    owner: tomcat8
-    recurse: yes
+# - name: install_geoserver_application | set permissions /var/lib/tomcat8/webapps/geoserver'
+#   become: yes
+#   file:
+#     path: /var/lib/tomcat8/webapps/geoserver
+#     owner: tomcat8
+#     recurse: yes
 
 - name: install_geoserver_application | create directories
   file:
@@ -34,38 +46,14 @@
   command: cp -Rf {{ project_path }}/geoserver/data/. /data/geoserver-data/
 
 
-# permissions
-- name: install_geoserver_application | set permissions /var/lib/tomcat8/webapps/geoserver
-  become: yes
-  file:
-    path: "{{ item }}"
-    owner: tomcat8
-    recurse: yes
-  with_items:
-    - /data/geoserver-data/
-    - /data/geoserver-logs/
-    - /data/gwc_cache_dir/
-
-- name: install_geoserver_application | write tomcat-users.xml
-  template: 
-    src: ./templates/gs/tomcat-users.xml 
-    dest: /etc/tomcat8/tomcat-users.xml
-    owner: root
-    group: tomcat8
-  become: yes
-
-# config from templates
-- name: install_geoserver_application | write tomcat8
-  template: 
-    src: ./templates/gs/tomcat8 
-    dest: /etc/default/tomcat8
-  become: yes
-
-- name: install_geoserver_application | write catalina.properties
-  template: 
-    src: ./templates/gs/catalina.properties 
-    dest: /var/lib/tomcat8/conf/catalina.properties
-  become: yes
+# uncomment tomcat-admin first in install_geonode_packages.yml
+# - name: install_geoserver_application | write tomcat-users.xml
+#   template: 
+#     src: ./templates/gs/tomcat-users.xml 
+#     dest: /etc/tomcat8/tomcat-users.xml
+#     owner: root
+#     group: tomcat8
+#   become: yes
 
 - name: install_geoserver_application | write config.conf 
   template: 
@@ -92,7 +80,7 @@
   become: yes
 
 - name: install_geoserver_application | start tomcat 
+  shell: service tomcat8 start
+  environment:
+    JAVA_HOME=: /usr/
   become: yes
-  service:
-    name: tomcat8
-    state: started

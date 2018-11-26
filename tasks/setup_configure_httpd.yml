@@ -8,10 +8,6 @@
   template: src=./templates/apache/wsgi.py.j2 dest={{ project_path }}/{{ project_name }}/wsgi.py
   become: yes
 
-- name: setup_configure_httpd | write local_settings.py
-  template: src=./templates/django/local_settings.py.j2 dest={{ project_path }}/{{ project_name }}/local_settings.py
-  become: yes
-
 # configure apache
 - name: setup_configure_httpd | activate mod proxy
   become: yes

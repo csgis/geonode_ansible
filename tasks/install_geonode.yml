@@ -39,11 +39,6 @@
 - name: install_geonode | install correct pygdal version
   command: "{{ virtualenv_dir }}/bin/pip install pygdal>={{ gdal_version.stdout }}.0,<={{ gdal_version.stdout }}.999"
 
-- name: install_geonode | copy file with geoserver build information
-  copy:
-    src: ./assets/dev_config.yml
-    dest: "{{ project_path }}/dev_config.yml"
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: 0744 
-
+- name: install_geonode | write local_settings.py
+  template: src=./templates/django/local_settings.py.j2 dest={{ project_path }}/{{ project_name }}/local_settings.py
+  become: yes

@@ -35,6 +35,6 @@
   environment:
     DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
     GEONODE_ETC: "{{ project_path }}/{{ project_name }}"
-    GEOSERVER_DATA_DIR: /data/geoserver-data
+    GEOSERVER_DATA_DIR: /var/lib/tomcat8/webapps/geoserver/data
 
 

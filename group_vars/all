@@ -4,10 +4,10 @@ user: vagrant
 
 # Have a look at the correct Version at project readme
 # https://github.com/GeoNode/geonode-project
-django_version: 1.11.16
+django_version: 1.11.11
 
 # server ip or domain without http[s]://
-server_name: 192.168.33.11
+server_name: 192.168.33.14
 
 # url geonode-project
 geonode_project_repository: https://github.com/GeoNode/geonode-project.git
@@ -22,7 +22,7 @@ db_password: geonode
 
 # geoserver settings (not yet implemented)
 gs_user: admin
-gs_password: geoserver_password
+gs_password: geoserver
 
 # auto filled you do not have to change after here
 # ---

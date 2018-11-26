@@ -1,11 +1,11 @@
 ---
-# configure postgresql
+#configure postgresql
 - name: create_geonode_db | write pg_hba.conf file 
-  template: src=./templates/postgres/pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
+  template: src=./templates/postgres/pg_hba.conf dest=/etc/postgresql/10/main/pg_hba.conf
   become: yes
 
 - name: create_geonode_db | write pg_hba.conf file 
-  template: src=./templates/postgres/postgresql.conf dest=/etc/postgresql/9.5/main/postgresql.conf
+  template: src=./templates/postgres/postgresql.conf dest=/etc/postgresql/10/main/postgresql.conf
   become: yes
 
 - name: create_geonode_db | restart database

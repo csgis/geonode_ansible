@@ -1,0 +1,34 @@
+---
+
+- name: temporarly make share 777 (bug with paver?)
+  file:
+    path: /usr/local/share
+    mode: u=rwX,g=rwX,o=rwX
+    recurse: yes
+  become: yes
+
+- name: helper_paver_setup | setup
+  shell: ". {{ virtualenv_dir }}/bin/activate && paver setup"
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
+  args:
+    chdir: "{{ project_path }}"
+
+
+- name: helper_paver_sync | paver sync
+  shell: ". {{ virtualenv_dir }}/bin/activate && paver sync"
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ project_name }}.local_settings"
+  args:
+    chdir: "{{ project_path }}"
+
+- name: helper_paver_sync | apache2 envvars
+  shell: echo "export DJANGO_SETTINGS_MODULE={{ project_name }}.local_settings" | sudo tee --append /etc/apache2/envvars
+  become: yes
+
+- name: temporarly make share 755 again (bug with paver?)
+  file:
+    path: /usr/local/share
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+  become: yes
