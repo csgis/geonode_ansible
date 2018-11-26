@@ -1,6 +1,6 @@
 
 # CSGIS GeoNode installation with Ansible
-
+# GeoNode Master on Ubuntu 18.04
 This Ansible playbook aims to install GeoNode by use of geonode-project to an Ubuntu Server 18.04 (Bionic). 
 It tries to stay close to the installation instructions docs: http://docs.geonode.org/en/master/tutorials/install_and_admin/geonode_install/index.html
 The tasks are currently quite low level using only one role. For a more versatile playbook visit: 
