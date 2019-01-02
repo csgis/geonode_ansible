@@ -1,19 +1,19 @@
 ---
 # user who runs commands an owns files
-user: vagrant
+user: john_doe
 
 # Have a look at the correct Version at project readme
 # https://github.com/GeoNode/geonode-project
 django_version: 1.11.11
 
 # server ip or domain without http[s]://
-server_name: 192.168.33.14
+server_name: 192.168.33.23
 
 # url geonode-project
 geonode_project_repository: https://github.com/GeoNode/geonode-project.git
 
 # path settings
-project_name: my_geonode
+project_name: demo_geonode
 install_root: "/home/{{ user }}"
 
 # password settings for database
