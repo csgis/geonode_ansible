@@ -128,11 +128,11 @@ GEOSERVER_PUBLIC_LOCATION = os.getenv(
 )
 
 OGC_SERVER_DEFAULT_USER = os.getenv(
-    'GEOSERVER_ADMIN_USER', 'admin'
+    'GEOSERVER_ADMIN_USER', '{{gs_user}}'
 )
 
 OGC_SERVER_DEFAULT_PASSWORD = os.getenv(
-    'GEOSERVER_ADMIN_PASSWORD', 'geoserver'
+    'GEOSERVER_ADMIN_PASSWORD', '{{gs_password}'
 )
 
 # OGC (WMS/WFS/WCS) Server Settings
