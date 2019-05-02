@@ -19,15 +19,8 @@
 
 # folder setup
 - name: install_geoserver_application | copy geoserver directory
-  command: cp -Rf {{ project_path }}/downloaded/geoserver-2.14.x.war /var/lib/tomcat8/webapps/geoserver.war
+  command: cp -Rf {{ project_path }}/downloaded/geoserver-2.15.x.war /var/lib/tomcat8/webapps/geoserver.war
   become: yes
-
-# - name: install_geoserver_application | set permissions /var/lib/tomcat8/webapps/geoserver'
-#   become: yes
-#   file:
-#     path: /var/lib/tomcat8/webapps/geoserver
-#     owner: tomcat8
-#     recurse: yes
 
 - name: install_geoserver_application | create directories
   file:
@@ -45,15 +38,6 @@
   become: yes
   command: cp -Rf {{ project_path }}/geoserver/data/. /data/geoserver-data/
 
-
-# uncomment tomcat-admin first in install_geonode_packages.yml
-# - name: install_geoserver_application | write tomcat-users.xml
-#   template: 
-#     src: ./templates/gs/tomcat-users.xml 
-#     dest: /etc/tomcat8/tomcat-users.xml
-#     owner: root
-#     group: tomcat8
-#   become: yes
 
 - name: install_geoserver_application | write config.conf 
   template: 

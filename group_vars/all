@@ -4,7 +4,7 @@ user: john_doe
 
 # Have a look at the correct Version at project readme
 # https://github.com/GeoNode/geonode-project
-django_version: 1.11.11
+django_version: 1.11.20
 
 # server ip or domain without http[s]://
 server_name: 192.168.33.23

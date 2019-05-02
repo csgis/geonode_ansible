@@ -1,5 +1,14 @@
 ---
 
+- name: install_geonode_packages | install java 8
+  become: yes
+  apt: name={{item}} state=latest
+  loop: ['openjdk-8-jdk-headless', 'default-jdk-headless']
+
+- name: change default-java to openjdk8
+  become: yes
+  shell: update-java-alternatives --set /usr/lib/jvm/java-1.8.0-openjdk-amd64
+
 - name: install_geonode_packages | install list of dependency packages
   become: yes
   apt:
@@ -7,40 +16,49 @@
     update_cache: yes
   vars:
     packages:
-      - python-virtualenv
-      - python-dev
+      - apache2
+      - build-essential
+      - default-jdk
+      - gcc
+      - gdal-bin
+      - gettext
+      - git
+      - git-core
+      - libapache2-mod-wsgi
+      - libgdal-dev
+      - libgdal20
+      - libgeos-dev
+      - libjpeg-dev
+      - libpng-dev
+      - libpq-dev
+      - libproj-dev
       - libxml2
       - libxml2-dev
+      - libxslt-dev
       - libxslt1-dev
-      - zlib1g-dev
-      - libjpeg-dev
-      - libpq-dev
-      - git
-      - default-jdk
-      - build-essential
-      - openssh-server
-      - gettext
       - nano
-      - vim 
-      - unzip 
-      - zip 
-      - patch 
-      - git-core 
+      - openssh-server
+      - patch
       - postfix
+      - postgis
+      - postgresql
+      - postgresql-10-postgis-2.4-scripts
+      - postgresql-contrib
+      - python-dev
+      - python-gdal
+      - python-pastescript
+      - python-pil
+      - python-pip
+      - python-psycopg2
+      - python-pycurl
+      - python-urlgrabber
+      - python-virtualenv
       - software-properties-common
-
-- name: install_geonode_packages | add oracle java repository
-  become: yes
-  apt_repository: repo='ppa:webupd8team/java'
-
-- name: install_geonode_packages | accept java8 license
-  become: yes
-  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
-
-- name: install_geonode_packages | install oracle java 8
-  become: yes
-  apt: name={{item}} state=latest
-  loop: ['oracle-java8-installer', 'ca-certificates', 'oracle-java8-set-default']
+      - tomcat8
+      - unzip
+      - vim
+      - zip
+      - zlib1g-dev
 
 - name: install_geonode_packages | upgrade apt packages
   become: yes
@@ -49,40 +67,3 @@
     autoremove: yes
     autoclean: yes
     purge: yes
-
-- name: install_geonode_packages | install a list of dependency packages
-  become: yes
-  apt:
-    name: "{{ packages }}"
-    update_cache: yes
-  vars:
-    packages:
-      - gcc
-      - apache2
-      - libapache2-mod-wsgi
-      - libgeos-dev
-      - libjpeg-dev
-      - libpng-dev
-      - libpq-dev 
-      - libproj-dev 
-      - libxml2-dev 
-      - libxslt-dev
-      - python-pip
-      - gdal-bin 
-      - libgdal20 
-      - libgdal-dev
-      - python-gdal 
-      - python-pycurl 
-      - python-pil
-      - python-pastescript 
-      - python-psycopg2 
-      - python-urlgrabber
-      - postgresql 
-      - postgis 
-      - postgresql-10-postgis-2.4-scripts
-      - postgresql-contrib
-      - tomcat8
-      # - tomcat8-admin
-
-
-

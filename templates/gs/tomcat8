@@ -24,7 +24,7 @@ GEOSERVER_LOG_LOCATION="/data/geoserver-logs/geoserver.log"
 GEOWEBCACHE_CACHE_DIR="/data/gwc_cache_dir"
 GEOFENCE_DIR="$GEOSERVER_DATA_DIR/geofence"
 
-JAVA_OPTS="-Djava.awt.headless=true -XX:MaxPermSize=512m -XX:PermSize=128m -Xms512m -Xmx2048m -Duser.timezone=GMT -Dorg.geotools.shapefile.datetime=true -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelGCThreads=4 -Dfile.encoding=UTF8 -Duser.timezone=GMT -Djavax.servlet.request.encoding=UTF-8 -Djavax.servlet.response.encoding=UTF-8 -DGEOSERVER_DATA_DIR=$GEOSERVER_DATA_DIR -Dgeofence.dir=$GEOFENCE_DIR -DGEOSERVER_LOG_LOCATION=$GEOSERVER_LOG_LOCATION -DGEOWEBCACHE_CACHE_DIR=$GEOWEBCACHE_CACHE_DIR"
+JAVA_OPTS="-Djava.awt.headless=true -Xms512m -Xmx2048m -Duser.timezone=GMT -Dorg.geotools.shapefile.datetime=true -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=4 -Dfile.encoding=UTF8 -Duser.timezone=GMT -Djavax.servlet.request.encoding=UTF-8 -Djavax.servlet.response.encoding=UTF-8 -DGEOSERVER_DATA_DIR=$GEOSERVER_DATA_DIR -Dgeofence.dir=$GEOFENCE_DIR -DGEOSERVER_LOG_LOCATION=$GEOSERVER_LOG_LOCATION -DGEOWEBCACHE_CACHE_DIR=$GEOWEBCACHE_CACHE_DIR"
 
 
 # To enable remote debugging uncomment the following line.
