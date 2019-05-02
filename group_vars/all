@@ -1,6 +1,6 @@
 ---
 # user who runs commands an owns files
-user: john_doe
+user: john
 
 # Have a look at the correct Version at project readme
 # https://github.com/GeoNode/geonode-project
